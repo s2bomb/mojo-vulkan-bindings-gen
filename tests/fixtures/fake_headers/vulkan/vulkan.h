@@ -1,0 +1,1 @@
+/* Minimal fake header fixture for external tests. */

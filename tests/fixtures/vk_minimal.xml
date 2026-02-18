@@ -1,0 +1,76 @@
+<registry>
+  <comment>Minimal fixture for vulkan-bindings-gen external tests</comment>
+
+  <types>
+    <type category="basetype">typedef <type>uint32_t</type> <name>VkBool32</name>;</type>
+    <type category="basetype">typedef <type>uint64_t</type> <name>VkDeviceSize</name>;</type>
+    <type category="enum" name="VkResult"/>
+    <type category="enum" name="VkStructureType"/>
+    <type category="handle"><type>VK_DEFINE_HANDLE</type>(<name>VkInstance</name>)</type>
+    <type category="struct" name="VkApplicationInfo">
+      <member><type>VkStructureType</type> <name>sType</name></member>
+      <member>const <type>void</type>* <name>pNext</name></member>
+      <member><type>uint32_t</type> <name>apiVersion</name></member>
+    </type>
+    <type category="struct" name="VkSwapchainCreateInfoKHR">
+      <member><type>VkStructureType</type> <name>sType</name></member>
+      <member>const <type>void</type>* <name>pNext</name></member>
+    </type>
+  </types>
+
+  <enums name="VkResult" type="enum">
+    <enum value="0" name="VK_SUCCESS"/>
+  </enums>
+  <enums name="VkStructureType" type="enum">
+    <enum value="0" name="VK_STRUCTURE_TYPE_APPLICATION_INFO"/>
+  </enums>
+  <enums name="API Constants">
+    <enum name="VK_HEADER_VERSION" value="343"/>
+  </enums>
+
+  <commands>
+    <command>
+      <proto><type>VkResult</type> <name>vkCreateInstance</name></proto>
+      <param>const <type>VkApplicationInfo</type>* <name>pCreateInfo</name></param>
+      <param><type>VkInstance</type>* <name>pInstance</name></param>
+    </command>
+    <command>
+      <proto><type>VkResult</type> <name>vkCreateSwapchainKHR</name></proto>
+      <param><type>VkInstance</type> <name>instance</name></param>
+      <param>const <type>VkSwapchainCreateInfoKHR</type>* <name>pCreateInfo</name></param>
+    </command>
+  </commands>
+
+  <feature api="vulkan" name="VK_VERSION_1_0" number="1.0">
+    <require>
+      <type name="VkBool32"/>
+      <type name="VkDeviceSize"/>
+      <type name="VkResult"/>
+      <type name="VkStructureType"/>
+      <type name="VkInstance"/>
+      <type name="VkApplicationInfo"/>
+      <command name="vkCreateInstance"/>
+      <enum name="VK_SUCCESS" extends="VkResult" value="0"/>
+      <enum name="VK_STRUCTURE_TYPE_APPLICATION_INFO" extends="VkStructureType" value="0"/>
+    </require>
+  </feature>
+
+  <extensions>
+    <extension name="VK_KHR_surface" supported="vulkan" type="instance">
+      <require>
+        <type name="VkSurfaceKHR"/>
+      </require>
+    </extension>
+    <extension
+      name="VK_KHR_swapchain"
+      supported="vulkan"
+      type="device"
+      depends="VK_KHR_surface"
+    >
+      <require>
+        <type name="VkSwapchainCreateInfoKHR"/>
+        <command name="vkCreateSwapchainKHR"/>
+      </require>
+    </extension>
+  </extensions>
+</registry>
